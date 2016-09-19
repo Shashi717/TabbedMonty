@@ -74,60 +74,86 @@ class MontyBrain {
     }
     
     func fillTheShipHorizontally(ship: Int) {
-        var rand = randomNumber()
+        let rand = randomNumber()
         if checkForHorizontalEdges(ship: ship, randomNum: rand) {
-            inner: for _ in 0..<ship {
-                if cards[rand] != .hit && rand <= 100 {
-                    cards[rand] = .hit
-                    rand += 1
-                }
-                else {
-                    rand = randomNumber()
-                    continue inner
+            
+            var check = true
+            for i in 0..<ship {
+                if cards[rand + i] == .hit {
+                    check = false
+                    
                 }
                 
             }
+            if check == true {
+                for i in 0..<ship {
+                    cards[rand+i] = .hit
+                }
+            }
+            else {
+                fillTheShipHorizontally(ship: ship)
+            }
+            
+            
         }
         else {
-            inner: for _ in 0..<ship {
-                if cards[rand] != .hit && rand <= 100{
-                    cards[rand] = .hit
-                    rand -= 1
-                }
-                else {
-                    rand = randomNumber()
-                    continue inner
+            var check = true
+            for i in 0..<ship {
+                if cards[rand - i] == .hit {
+                    check = false
+                    
                 }
                 
+            }
+            if check == true {
+                for i in 0..<ship {
+                    cards[rand-i] = .hit
+                }
+            }
+            else {
+                fillTheShipHorizontally(ship: ship)
             }
         }
         
     }
     
     func fillTheShipVertically (ship: Int) {
-        var rand = randomNumber()
+        let rand = randomNumber()
         if checkForVerticalEdges(ship: ship, randomNum: rand) {
-            inner: for _ in 0..<ship {
-                if cards[rand] != .hit && rand <= 100 {
-                    cards[rand] = .hit
-                    rand += 10
+            
+            var check = true
+            for i in 0..<ship {
+                if cards[rand + 10 * i] == .hit {
+                    check = false
+                    
                 }
-                else {
-                    rand = randomNumber()
-                    continue inner
+                
+            }
+            if check == true {
+                for i in 0..<ship {
+                    cards[rand + 10 * i] = .hit
                 }
+            }
+            else {
+                fillTheShipVertically(ship: ship)
             }
         }
         else {
-            inner: for _ in 0..<ship {
-                if cards[rand] != .hit && rand <= 100 {
-                    cards[rand] = .hit
-                    rand -= 10
+            var check = true
+            for i in 0..<ship {
+                if cards[rand - 10 * i] == .hit {
+                    check = false
+                    
                 }
-                else {
-                    rand = randomNumber()
-                    continue inner
+                
+            }
+            if check == true {
+                for i in 0..<ship {
+                    cards[rand - 10 * i] = .hit
                 }
+            }
+            else {
+                fillTheShipVertically(ship: ship)
             }
         }
         
