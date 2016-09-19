@@ -77,7 +77,7 @@ class MontyBrain {
         var rand = randomNumber()
         if checkForHorizontalEdges(ship: ship, randomNum: rand) {
             inner: for _ in 0..<ship {
-                if cards[rand] != .hit {
+                if cards[rand] != .hit && rand <= 100 {
                     cards[rand] = .hit
                     rand += 1
                 }
@@ -90,7 +90,7 @@ class MontyBrain {
         }
         else {
             inner: for _ in 0..<ship {
-                if cards[rand] != .hit {
+                if cards[rand] != .hit && rand <= 100{
                     cards[rand] = .hit
                     rand -= 1
                 }
@@ -108,7 +108,7 @@ class MontyBrain {
         var rand = randomNumber()
         if checkForVerticalEdges(ship: ship, randomNum: rand) {
             inner: for _ in 0..<ship {
-                if cards[rand] != .hit {
+                if cards[rand] != .hit && rand <= 100 {
                     cards[rand] = .hit
                     rand += 10
                 }
@@ -120,7 +120,7 @@ class MontyBrain {
         }
         else {
             inner: for _ in 0..<ship {
-                if cards[rand] != .hit {
+                if cards[rand] != .hit && rand <= 100 {
                     cards[rand] = .hit
                     rand -= 10
                 }
