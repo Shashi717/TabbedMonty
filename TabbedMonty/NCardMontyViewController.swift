@@ -19,9 +19,11 @@ class NCardMontyViewController: UIViewController {
     let brain: MontyBrain
     var loaded: Bool
     let resetTitle = "Reset"
+    var counter = 0
+    
     
     required init?(coder aDecoder: NSCoder) {
-        self.howManyCards = 19
+        self.howManyCards = 100
         self.loaded = false
         self.brain = MontyBrain(numCards: self.howManyCards)
         super.init(coder: aDecoder)
@@ -33,7 +35,7 @@ class NCardMontyViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         if !loaded {
-            setUpGameButtons(v: buttonContainer, totalButtons: self.howManyCards, buttonsPerRow: 6)
+            setUpGameButtons(v: buttonContainer, totalButtons: self.howManyCards, buttonsPerRow: 10)
             self.view.setNeedsDisplay()
         }
         loaded = true
@@ -42,15 +44,17 @@ class NCardMontyViewController: UIViewController {
     func resetButtonColors() {
         for v in buttonContainer.subviews {
             if let button = v as? UIButton {
-                button.backgroundColor = UIColor.blue
+                button.backgroundColor = UIColor.cyan
                 button.isEnabled = true
             }
         }
     }
     
     func handleReset() {
-        resetButtonColors()
         brain.setupCards()
+        setUpGameLabel()
+        resetButtonColors()
+        counter = 0
     }
     
     func disableCardButtons() {
@@ -69,16 +73,23 @@ class NCardMontyViewController: UIViewController {
         gameLabel.text = sender.currentTitle
         
         if brain.checkCard(sender.tag - 1) {
-            gameLabel.text = "Winner winner chicken dinner!"
-            sender.backgroundColor = UIColor.green
-            disableCardButtons()
             
+            gameLabel.text = "It's a Hit"
+            counter += 1
+            sender.backgroundColor = UIColor.lightGray
+            sender.isEnabled = false
             
-        } else {
-            gameLabel.text = "Nope! Guess again."
+            if counter == 17 {
+                gameLabel.text = "You got all the hits! You Win!"
+                disableCardButtons()
+            }
+        }
+        else {
+            gameLabel.text = "Miss"
             sender.backgroundColor = UIColor.red
         }
     }
+    
     
     func setUpResetButton() {
         let resetRect = CGRect(x: 10, y: 300, width: 60, height: 40)
@@ -89,7 +100,7 @@ class NCardMontyViewController: UIViewController {
         view.addSubview(resetButton)
     }
     
-    func setUpGameLabel () {
+    func setUpGameLabel() {
         gameLabel.text = "Let's Play!"
     }
     
@@ -102,12 +113,12 @@ class NCardMontyViewController: UIViewController {
             let rect = CGRect(origin: CGPoint(x: side * CGFloat(x), y: (CGFloat(y) * side)), size: CGSize(width: side, height: side))
             let button = UIButton(frame: rect)
             button.tag = i
-            button.backgroundColor = UIColor.blue
+            button.backgroundColor = UIColor.cyan
             button.setTitle(String(i), for: UIControlState())
             button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
             v.addSubview(button)
         }
-
+        
         setUpGameLabel()
     }
 }

@@ -12,7 +12,7 @@ class MontyViewController: UIViewController {
     
     @IBOutlet weak var labelOutcome: UILabel!
     
-    let engine = MontyBrain(numCards: 3)
+    let engine = MontyBrain(numCards: 100)
     
     override func viewDidLoad() {
         super.viewDidLoad()
